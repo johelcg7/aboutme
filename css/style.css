@@ -1,0 +1,27 @@
+body {
+    font-family: Helvetica, sans-serif;
+    background-color: black;
+}
+
+img {
+    border-radius: 50%;
+    border: solid;
+    /* truco: el ancho y el alto deben ser iguales */
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+section {
+    text-align: center;
+}
+
+h1 {
+    font-size: xx-large;
+    color: antiquewhite;
+}
+
+p {
+    color:bisque;
+    text-rendering: auto;
+}
