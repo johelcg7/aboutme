@@ -1,6 +1,8 @@
 body {
     font-family: Helvetica, sans-serif;
     background-color: black;
+    color: blanchedalmond;
+    text-align: center;
 }
 
 img {
@@ -14,14 +16,41 @@ img {
 
 section {
     text-align: center;
+    box-sizing: border-box;
+    background-color: aliceblue;
+    color: black;
 }
 
 h1 {
     font-size: xx-large;
-    color: antiquewhite;
+    color: black;
 }
 
 p {
-    color:bisque;
+    color:black;
     text-rendering: auto;
+}
+
+h2 {
+    font-size: xx-large;
+    color: antiquewhite;
+}
+
+h3 {
+    font-size: x-large;
+    color: antiquewhite;
+}
+
+
+ul {
+.one {
+    list-style: circle;
+  }
+}
+
+
+
+body section{
+    position: sticky;
+    top: 0;
 }
