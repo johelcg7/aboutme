@@ -1,35 +1,41 @@
 'use strict'
 
-// let nombreUsuario; 
+let nombre;
+let respuestasCorrectas = 0;
+let respuestasIncorrectas = 0;
 
-function saludo() {
-    // al cliente debemos preguntarle como se llama?
-    let nombreUsuario = prompt("¡Hola!👋 puedes decirme tu nombre?");
-    //console.log ("Bienvenido, "+ nombreUsuario + "ahora te haré preguntas sobre mí que debes responder Si o No")
-    alert("Bienvenido, " + nombreUsuario + ", ahora te haré preguntas sobre mí que debes responder con Si o No.")
+function bienvenida() {
+    nombre = prompt("Bienvenido a mi página. Dime tu nombre.");
+    alert("¡Bienvenido, " + nombre + "! Por favor, responde las siguientes preguntas sobre mí con si o no.");
+
+    let mensajeHeader = document.createElement('p');
+    mensajeHeader.className = 'bienvenida';
+    mensajeHeader.innerText = "¡Bienvenido, " + nombre + "!";
+    let headerBienvenida = document.querySelector('header');
+    if (headerBienvenida) {
+        headerBienvenida.appendChild(mensajeHeader);
+    }
 }
 
 function numeroAleatorio() {
+    const numeroRandom = Math.floor(Math.random() * 10) + 1;
 
-    let numeroRandom = Math.floor(Math.random() * 10) + 1;
     return numeroRandom;
-
 }
 
 function preguntasRespuestas() {
-    // luego nos pide crear 5 preguntas
-    // Para listas grandes usamos arreglos
-    const preguntas = [
+    const cuestionario = [
         "¿Soy músico?",
         "¿Trabajo en la actualidad como independiente?",
         "¿Quiero mejorar profesionalmente?",
         "¿Soy cocinero?",
         "¿Estudio desarrollo de software?",
         "Adivina un número del 1 al 10, recuerda que al cuarto intento fallido, la bomba explota y mueres.",
-        "Ahora, " + nombreUsuario + ", te tocará adivinar alguna de mis series favoritas, tienes 6 intentos :)"
+        "Ahora, " + nombre + ", te tocará adivinar alguna de mis series favoritas, tienes 6 intentos :)"
     ];
 
     const respuestaRandom = numeroAleatorio();
+
 
     const respuestas = [
         "Si",
@@ -41,158 +47,90 @@ function preguntasRespuestas() {
         ["Doctor House", "Cosmos", "Breaking Bad", "Better Call Saul", "Peaky Blinder", "The Big Bang Theory", "The Last Of Us", "Dark", "Two And a Half Men", "Attack Of Titans"]
     ];
 
-    console.log(respuestas);
-
-    let cantidadDePreguntasCorrectas = 0;
-    let cantidadDePreguntasIncorrectas = 0;
-    let intentos = 0;
+    console.log(respuestas)
 
     for (let i = 0; i < cuestionario.length; i++) {
-        const comparacionRespuestas = prompt(cuestionario[i]);
+        let comparacionRespuestas = prompt(cuestionario[i]);
+
         if (i === 5) {
+            let intentos = 0;
+            let acerto = false;
+
             for (let j = 0; j < 3; j++) {
-                const respuestaRandom = parseInt(comparacionRespuestas);
-                if (respuestaRandom === respuestas[5]) {
-                    alert("¡Respuesta Correcta! Parece que si me conoces 😉");
-                    cantidadDePreguntasCorrectas++;
-                    intentos++;
+                const respuestaAleatoria = parseInt(comparacionRespuestas);
+                intentos++;
+
+                if (respuestaAleatoria === respuestas[5]) {
+                    alert("¡Respuesta Correcta! Me estás cayendo bien 😉");
+                    respuestasCorrectas++;
+                    acerto = true;
                     break;
-                } else if (respuestaRandom > respuestas[5]) {
-                    alert('¡Jaaa Jaaa Te Equivocaste! El numero era menor');
-                    cantidadDePreguntasIncorrectas++;
-                    intentos++;
-                    prompt(cuestionario[5]);
-                } else if (respuestaRandom < respuestas[5]) {
-                    alert('¡Jaaa Jaaa Te Equivocaste! El numero era mayor');
-                    cantidadDePreguntasIncorrectas++;
-                    intentos++;
-                    prompt(cuestionario[5]);
+                } else if (respuestaAleatoria > respuestas[5]) {
+                    alert('¡Error! El número era menor.');
+                } else if (respuestaAleatoria < respuestas[5]) {
+                    alert('¡Error! El número era mayor.');
+                }
+                if (j < 2) {
+                    comparacionRespuestas = prompt("Intenta de nuevo: " + cuestionario[5]);
                 }
             }
-            console.log(intentos);
-            if (intentos == 3) {
-                alert("Te quedaste sin intentos, pense en el numero " + respuestaRandom);
+            if (!acerto) {
+                alert("Te quedaste sin intentos, la bomba explotará en 3, 2, 1... Naa el número era:  " + respuestaRandom);
+                respuestasIncorrectas++;
             }
         } else if (i === 6) {
+            let acerto = false;
+
             for (let index = 0; index < respuestas[6].length; index++) {
-                if (respuestas[i][index].toLowerCase() === comparacionRespuestas.toLowerCase()) {
-                    alert("¡Respuesta Correcta! Parece que si me conoces 😉");
-                    cantidadDePreguntasCorrectas++;
+                if (respuestas[6][index].toLowerCase() === comparacionRespuestas.toLowerCase()) {
+                    alert("¡Respuesta Correcta! Te salvaste");
+                    respuestasCorrectas++;
+                    acerto = true;
                     break;
-                } else {
-                    alert("¡Jaaa Jaaa Te Equivocaste!");
-                    cantidadDePreguntasIncorrectas++;
-                    prompt(cuestionario[6]);
                 }
+            }
+            if (!acerto) {
+                alert("¡Grosso error!");
+                respuestasIncorrectas++;
             }
         } else {
             if (respuestas[i].toLowerCase() === comparacionRespuestas.toLowerCase()) {
-                cantidadDePreguntasCorrectas++;
-                alert("¡Respuesta Correcta! Parece que si me conoces 😉");
+                respuestasCorrectas++;
+                alert("¡Respuesta Correcta! Me estás cayendo bien 😉");
             } else {
-                cantidadDePreguntasIncorrectas++;
-                alert("¡Jaaa Jaaa Te Equivocaste!");
+                respuestasIncorrectas++;
+                alert("¡Grosso error!");
             }
         }
     }
-    alert("Gracias por participar, tu puntuación fue: " + respuestasCorrectas + " respuestas correctas de " + cuestionario.length + " preguntas");
+
+    let mensajeFooter = document.createElement('p')
+    if (respuestasCorrectas >= 5) {
+        mensajeFooter.innerText = "¡Parece que seguirás vivo por algún tiempo jeje";
+    } else {
+        mensajeFooter.innerText = "Fallaste mucho, creo que deberás correr antes que la bomba explote.";
+    }
+
+    let footerPuntaje = document.querySelector('footer');
+    if (footerPuntaje) {
+        footerPuntaje.appendChild(mensajeFooter);
+    }
+
+    alert("Gracias por participar, lo de la bomba, obviamente era broma, obtuviste: " + respuestasCorrectas + " respuestas correctas de " + cuestionario.length + " preguntas");
 }
 
 
-
-// for (let i = 0; i < preguntas.length; i++) {
-//     const respuestaUsuario = prompt(preguntas[i]);
-//     // vamos a comparar la respuestas del usuario con la respuesta que tengo guardada
-//     if (respuestas[i].toLowerCase() === respuestaUsuario.toLowerCase()) {
-//         cantidadDePreguntasCorrectas++;
-//         alert("¡Genial, " + nombreUsuario + ", adivinaste, vamos por más!")
-//     } else {
-//         cantidadDePreguntasIncorrectas++;
-//         alert("Nooo, a la próxima te saco de la página :p")
-//     }
-// }
+bienvenida();
+preguntasRespuestas();
 
 // console.log(
-//   "Hola",
-//   nombreUsuario,
-//   "respondiste correctamente",
-//   cantidadDePreguntasCorrectas
+//     "Hola",
+//     nombre,
+//     "acertaste esta cantidad de preguntas: ",
+//     respuestasCorrectas
 // );
-
-// console.log (
-//     nombreUsuario, "gracias por visitarme, ¡Hasta pronto!"
-// )
-
-alert(
-    "Hola, " +
-    nombreUsuario +
-    ", respondiste correctamente " +
-    cantidadDePreguntasCorrectas + ", ahora juguemos a las adivinanzas."
-);
-
-
-
-
-// console.log("Número obtenido", numeroAleatorio);
-let numeroUsuario, intentos = 4;
-
-/* Saldremos del bucle si agotamos intentos o acertamos número */
-do {
-    numeroUsuario = prompt("Adivina un número del 1 al 10, recuerda que al cuarto intento fallido, la bomba explota y mueres.");
-    if (numeroRandom == numeroUsuario) {
-        alert("¡Bien! Te salvaste por el momento");
-    } else if (numeroRandom > numeroUsuario) {
-        alert("Estás abajo, intenta de nuevo...");
-    } else if (numeroRandom < numeroUsuario) {
-        alert("Te pasaste, intenta de nuevo...");
-    }
-
-    else {
-        alert("No lo has conseguido, la bomba se activará en 3, 2, 1...");
-    }
-
-} while (numeroRandom != numeroUsuario && --intentos > 0);
-/* Detectamos si salimos del bucle por agotar intentos o acertar número */
-//  else if (numeroUsuario< numeroRandom){
-//     alert("No, tu número está muy bajo")
-
-// } 
-
-
-
-
-
-
-let respuestaSerie = ["Doctor House", "Cosmos", "Breaking Bad", "Better Call Saul", "Peaky Blinder", "The Big Bang Theory", "The Last Of Us", "Dark", "Two And a Half Men", "Attack Of Titans"];
-
-for (let j = 0; j < 6; j++) {
-    let questionsSeries = prompt("Ingresa una de mis Top 10, tienes 6 intentos...");
-    for (let i = 0; i < respuestaSerie.length; i++) {
-        if (questionsSeries == respuestaSerie[i]) {
-            alert("¡Respuesta correcta, también eres un showlover!");
-            score++;
-            intentos++;
-            break;
-        } else {
-            alert("Tienes que ser más creativo, intenta de nuevo")
-        }
-        if (intentos == 6) {
-            alert("Uy, no eres un showlover :(")
-        }
-
-    }
-}
-
-
-
-
-
-
-
-alert(
-    nombreUsuario + ", gracias por visitarme, ¡Hasta pronto!"
-)
-}
-
-saludo();
-preguntasRespuestas();
+// console.log(
+//     nombre,
+//     "estas son las respuestas que erraste: ",
+//     respuestasIncorrectas
+// );
